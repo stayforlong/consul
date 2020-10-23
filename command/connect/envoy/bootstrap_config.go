@@ -389,6 +389,9 @@ func resourceTagSpecifiers(omitDeprecatedTags bool) ([]string, error) {
 			fmt.Sprintf(`^cluster\.(?:passthrough~)?(((?:%s~)?(?:%s\.)?%s\.%s\.%s\.%s\.%s)\.consul\.)`,
 				reSegment, reSegment, reSegment, reSegment, reSegment, reSegment, reSegment)},
 
+		// stayforlong: Extract grpc service name
+		{"envoy.grpc_bridge_svc", `^cluster(?=\.).*?\.grpc\.((.*)\..*\.)`},
+
 		// Upstream listener metrics are prefixed by consul.upstream
 		//
 		// Listener metric name format:
