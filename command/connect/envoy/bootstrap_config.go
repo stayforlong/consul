@@ -333,6 +333,7 @@ func init() {
 			fmt.Sprintf(`^cluster\.(((?:%s~)?(?:%s\.)?%s\.%s\.%s)\.%s\.%s\.consul\.)`, PART, PART, PART, PART, PART, PART, PART)},
 		{"consul.full_target",
 			fmt.Sprintf(`^cluster\.(((?:%s~)?(?:%s\.)?%s\.%s\.%s\.%s\.%s)\.consul\.)`, PART, PART, PART, PART, PART, PART, PART)},
+		{"envoy.grpc_bridge_svc", `^cluster(?=\.).*?\.grpc\.((.*)\..*\.)`},
 	}
 
 	for _, rule := range rules {
