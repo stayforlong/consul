@@ -312,6 +312,9 @@ func (s *Server) makeAppCluster(cfgSnap *proxycfg.ConfigSnapshot, name, pathProt
 	if addr == "" {
 		addr = "127.0.0.1"
 	}
+	var maxConnections = 1000000000
+	var maxPendingRequests = 1000000000
+	var maxConcurrentRequests = 1000000000
 	c = &envoy.Cluster{
 		Name:                 name,
 		ConnectTimeout:       ptypes.DurationProto(time.Duration(cfg.LocalConnectTimeoutMs) * time.Millisecond),
@@ -327,6 +330,13 @@ func (s *Server) makeAppCluster(cfgSnap *proxycfg.ConfigSnapshot, name, pathProt
 					},
 				},
 			},
+		},
+		CircuitBreakers: &envoycluster.CircuitBreakers{
+			Thresholds: makeThresholdsIfNeeded(UpstreamLimits{
+				MaxConnections:        &maxConnections,
+				MaxPendingRequests:    &maxPendingRequests,
+				MaxConcurrentRequests: &maxConcurrentRequests,
+			}),
 		},
 	}
 	protocol := pathProtocol
