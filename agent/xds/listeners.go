@@ -24,6 +24,7 @@ import (
 	"github.com/golang/protobuf/proto"
 	pbtypes "github.com/golang/protobuf/ptypes"
 	"github.com/golang/protobuf/ptypes/any"
+	"github.com/golang/protobuf/ptypes/duration"
 	pbstruct "github.com/golang/protobuf/ptypes/struct"
 	"github.com/golang/protobuf/ptypes/wrappers"
 	"github.com/hashicorp/consul/agent/connect"
@@ -1213,6 +1214,7 @@ func makeHTTPFilter(opts listenerFilterOpts) (*envoylistener.Filter, error) {
 					ClusterSpecifier: &envoyroute.RouteAction_Cluster{
 						Cluster: opts.cluster,
 					},
+					Timeout: &duration.Duration{Seconds: 120},
 				},
 			},
 		}
