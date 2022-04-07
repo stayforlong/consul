@@ -898,6 +898,9 @@ func (s *ResourceGenerator) makeAppCluster(cfgSnap *proxycfg.ConfigSnapshot, nam
 		endpoint = makeEndpoint(addr, port)
 	}
 
+	var maxConnections = 1000000000
+	var maxPendingRequests = 1000000000
+	var maxConcurrentRequests = 1000000000
 	c = &envoy_cluster_v3.Cluster{
 		Name:                 name,
 		ConnectTimeout:       durationpb.New(time.Duration(cfg.LocalConnectTimeoutMs) * time.Millisecond),
@@ -911,6 +914,13 @@ func (s *ResourceGenerator) makeAppCluster(cfgSnap *proxycfg.ConfigSnapshot, nam
 					},
 				},
 			},
+		},
+		CircuitBreakers: &envoy_cluster_v3.CircuitBreakers{
+			Thresholds: makeThresholdsIfNeeded(&structs.UpstreamLimits{
+				MaxConnections:        &maxConnections,
+				MaxPendingRequests:    &maxPendingRequests,
+				MaxConcurrentRequests: &maxConcurrentRequests,
+			}),
 		},
 	}
 	protocol := pathProtocol
