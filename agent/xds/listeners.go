@@ -2448,6 +2448,7 @@ func makeHTTPFilter(opts listenerFilterOpts) (*envoy_listener_v3.Filter, error) 
 					ClusterSpecifier: &envoy_route_v3.RouteAction_Cluster{
 						Cluster: opts.cluster,
 					},
+					Timeout: &durationpb.Duration{Seconds: 120},
 				},
 			},
 		}
