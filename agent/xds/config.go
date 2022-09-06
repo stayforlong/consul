@@ -179,7 +179,16 @@ func ParseGatewayConfig(m map[string]interface{}) (GatewayConfig, error) {
 // If all values are zero a default empty OutlierDetection will be returned to
 // enable outlier detection with default values.
 func ToOutlierDetection(p *structs.PassiveHealthCheck) *envoy_cluster_v3.OutlierDetection {
-	od := &envoy_cluster_v3.OutlierDetection{}
+	disabled := &wrappers.UInt32Value{Value: 0}
+	od := &envoy_cluster_v3.OutlierDetection{
+		EnforcingConsecutive_5Xx:               disabled,
+		EnforcingSuccessRate:                   disabled,
+		EnforcingConsecutiveGatewayFailure:     disabled,
+		EnforcingConsecutiveLocalOriginFailure: disabled,
+		EnforcingLocalOriginSuccessRate:        disabled,
+		EnforcingFailurePercentage:             disabled,
+		EnforcingFailurePercentageLocalOrigin:  disabled,
+	}
 	if p == nil {
 		return od
 	}
