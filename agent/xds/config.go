@@ -183,7 +183,17 @@ func ParseGatewayConfig(m map[string]interface{}) (GatewayConfig, error) {
 //     for EnforcingConsecutive5xx. Due to the definition of proto of PassiveHealthCheck, ingress
 //     gateway's EnforcingConsecutive5xx must be > 0.
 func ToOutlierDetection(p *structs.PassiveHealthCheck, override *structs.PassiveHealthCheck, allowZero bool) *envoy_cluster_v3.OutlierDetection {
-	od := &envoy_cluster_v3.OutlierDetection{}
+	disabled := &wrapperspb.UInt32Value{Value: 0}
+	od := &envoy_cluster_v3.OutlierDetection{
+		EnforcingConsecutive_5Xx:               disabled,
+		EnforcingSuccessRate:                   disabled,
+		EnforcingConsecutiveGatewayFailure:     disabled,
+		EnforcingConsecutiveLocalOriginFailure: disabled,
+		EnforcingLocalOriginSuccessRate:        disabled,
+		EnforcingFailurePercentage:             disabled,
+		EnforcingFailurePercentageLocalOrigin:  disabled,
+	}
+
 	if p != nil {
 
 		if p.Interval != 0 {
