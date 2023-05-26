@@ -792,8 +792,7 @@ func (a *Agent) Start(ctx context.Context) error {
 	}
 
 	// Load checks/services/metadata.
-	emptyCheckSnapshot := map[structs.CheckID]*structs.HealthCheck{}
-	if err := a.loadServices(c, emptyCheckSnapshot); err != nil {
+	if err := a.loadServices(c, nil); err != nil {
 		return err
 	}
 	if err := a.loadChecks(c, nil); err != nil {
@@ -4293,7 +4292,7 @@ func (a *Agent) reloadConfigInternal(newCfg *config.RuntimeConfig) error {
 	}
 
 	// Reload service/check definitions and metadata.
-	if err := a.loadServices(newCfg, snap); err != nil {
+	if err := a.loadServices(newCfg, nil); err != nil {
 		return fmt.Errorf("Failed reloading services: %s", err)
 	}
 	if err := a.loadChecks(newCfg, snap); err != nil {
