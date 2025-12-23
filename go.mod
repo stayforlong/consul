@@ -75,7 +75,7 @@ require (
 	github.com/hashicorp/hil v0.0.0-20200423225030-a18a1cd20038
 	github.com/hashicorp/memberlist v0.5.2
 	github.com/hashicorp/raft v1.7.3
-	github.com/hashicorp/raft-autopilot v0.1.6
+	github.com/hashicorp/raft-autopilot v0.3.0
 	github.com/hashicorp/raft-boltdb/v2 v2.2.2
 	github.com/hashicorp/raft-wal v0.4.1
 	github.com/hashicorp/serf v0.10.2
